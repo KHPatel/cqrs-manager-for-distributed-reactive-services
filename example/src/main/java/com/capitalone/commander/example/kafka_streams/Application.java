@@ -36,4 +36,9 @@ public class Application {
     public CustomerStore customerStore() {
         return new CustomerStore();
     }
+
+    @Bean
+    public BatchfileStore batchfileStore() {
+        return new BatchfileStore();
+    }
 }

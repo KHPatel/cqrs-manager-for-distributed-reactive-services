@@ -25,26 +25,26 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 @RestController
-public class CustomerController {
+public class BatchfileController {
     @Resource
-    private CustomerStore customerStore;
+    private BatchfileStore batchfileStore;
 
-    public CustomerStore getCustomerStore() {
-        return customerStore;
+    public BatchfileStore getBatchfileStore() {
+        return batchfileStore;
     }
 
-    public void setCustomerStore(CustomerStore customerStore) {
-        this.customerStore = customerStore;
+    public void setBatchfileStore(BatchfileStore batchfileStore) {
+        this.batchfileStore = batchfileStore;
     }
 
-    @RequestMapping("/customers")
-    public List<Customer> customers() {
-        return customerStore.getCustomers();
+    @RequestMapping("/batchfiles")
+    public List<Batchfile> batchfiles() {
+        return batchfileStore.getBatchfiles();
     }
 
-    @RequestMapping("/customers/:id")
-    public Customer customer(@RequestParam(value="id") String idStr) {
+    @RequestMapping("/batchfiles/:id")
+    public Batchfile batchfile(@RequestParam(value="id") String idStr) {
         UUID id = UUID.fromString(idStr);
-        return customerStore.getCustomer(id);
+        return batchfileStore.getBatchfile(id);
     }
 }

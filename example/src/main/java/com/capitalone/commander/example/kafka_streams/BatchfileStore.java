@@ -31,36 +31,36 @@ import java.util.Map;
 import java.util.UUID;
 
 @Component
-public class CustomerStore implements ProcessorSupplier<UUID, Map>, Processor<UUID, Map> {
+public class BatchfileStore implements ProcessorSupplier<UUID, Map>, Processor<UUID, Map> {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private ProcessorContext context;
     private KeyValueStore<UUID, Map> store;
 
-    public List<Customer> getCustomers() {
-        List<Customer> customers = new ArrayList<>();
+    public List<Batchfile> getBatchfiles() {
+        List<Batchfile> batchfiles = new ArrayList<>();
         KeyValueIterator<UUID, Map> iterator = store.all();
         while (iterator.hasNext()) {
             KeyValue<UUID, Map> entry = iterator.next();
-            logger.debug("getCustomers iterator entry: {}", entry);
-            customers.add(new Customer(entry.value));
+            logger.debug("getBatchfiles iterator entry: {}", entry);
+            batchfiles.add(new Batchfile(entry.value));
         }
         iterator.close();
-        return customers;
+        return batchfiles;
     }
 
-    public Customer getCustomer(UUID id) {
-        return new Customer(store.get(id));
+    public Batchfile getBatchfile(UUID id) {
+        return new Batchfile(store.get(id));
     }
 
     @Override
     public void init(ProcessorContext processorContext) {
         this.context = processorContext;
-        this.store = (KeyValueStore<UUID, Map>) context.getStateStore("Customers");
+        this.store = (KeyValueStore<UUID, Map>) context.getStateStore("Batchfiles");
     }
 
     @Override
     public void process(UUID uuid, Map map) {
-        logger.debug("CustomerStore.process(UUID {}, Map {})", uuid, map);
+        logger.debug("BatchfileStore.process(UUID {}, Map {})", uuid, map);
         store.put(uuid, map);
         logger.debug("after put");
     }
